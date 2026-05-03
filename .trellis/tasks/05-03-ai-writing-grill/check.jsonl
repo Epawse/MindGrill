@@ -1,0 +1,6 @@
+{"file": ".trellis/tasks/05-03-ai-writing-grill/prd.md", "reason": "Acceptance criteria (9 items) + Definition of Done (7 items) — the quality contract"}
+{"file": ".trellis/tasks/05-03-ai-writing-grill/research/ui-design-language.md", "reason": "Design token compliance check: colors, fonts, radii, spacing, glass effects"}
+{"file": ".trellis/spec/frontend/quality-guidelines.md", "reason": "Frontend quality bar: lint, type-check, tests"}
+{"file": ".trellis/spec/frontend/type-safety.md", "reason": "TypeScript + Zod compliance check"}
+{"file": ".trellis/spec/backend/quality-guidelines.md", "reason": "Backend quality bar: error handling, validation, performance"}
+{"file": ".trellis/spec/guides/code-reuse-thinking-guide.md", "reason": "Check for duplicated patterns, reusable abstractions"}

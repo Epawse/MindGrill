@@ -1,0 +1,11 @@
+{"file": ".trellis/tasks/05-03-ai-writing-grill/prd.md", "reason": "Full PRD with 14 grill-resolved decisions — the implementation contract"}
+{"file": ".trellis/tasks/05-03-ai-writing-grill/research/multi-provider-ai-sdk.md", "reason": "LLM provider abstraction architecture with Vercel AI SDK 5 code patterns"}
+{"file": ".trellis/tasks/05-03-ai-writing-grill/research/reference-projects-stack.md", "reason": "tiktok_hackathon + memexflow patterns to reuse (Next.js scaffold, Supabase Auth, Zustand, logger)"}
+{"file": ".trellis/tasks/05-03-ai-writing-grill/research/ui-design-language.md", "reason": "Exact Tailwind v4 design tokens (colors, fonts, radii, spacing, glass effects, motion presets)"}
+{"file": ".trellis/tasks/05-03-ai-writing-grill/research/ui-8-products-benchmark-v2.md", "reason": "12-product UI benchmark with executable CSS var tokens"}
+{"file": ".trellis/tasks/05-03-ai-writing-grill/research/tech-stack-deep-dive.md", "reason": "Cross-platform pre-plan: lib/ layer as pure TS, no Expo/RN in MVP"}
+{"file": ".trellis/spec/frontend/component-guidelines.md", "reason": "Component design rules (naming, props, composition)"}
+{"file": ".trellis/spec/frontend/state-management.md", "reason": "Zustand + localStorage patterns"}
+{"file": ".trellis/spec/frontend/type-safety.md", "reason": "TypeScript strict + Zod schema enforcement"}
+{"file": ".trellis/spec/backend/error-handling.md", "reason": "API Route error handling pattern"}
+{"file": ".trellis/spec/backend/logging-guidelines.md", "reason": "Structured logging (reuse tiktok logger.ts)"}
