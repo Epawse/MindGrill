@@ -19,11 +19,9 @@ import {
 } from "@/lib/engine";
 import { buildScenarioPrompt } from "@/lib/engine/scenarios";
 import {
-  getDefaultProvider,
   getFallbackOrder,
-  isProviderId,
+  resolveProvider,
   withFallback,
-  type ProviderId,
 } from "@/lib/ai";
 import { errorResponse, ValidationError, ProviderUnavailableError } from "@/lib/errors";
 import { logger } from "@/lib/logger";
@@ -91,9 +89,4 @@ export async function POST(req: NextRequest) {
     });
     return errorResponse(error);
   }
-}
-
-function resolveProvider(override?: string): ProviderId | null {
-  if (override && isProviderId(override)) return override;
-  return getDefaultProvider();
 }

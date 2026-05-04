@@ -16,19 +16,15 @@ import { Download, Loader2, Share2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import {
   NodeStatus,
+  SCENARIO_LABEL,
   type GrillSession,
   type ScenarioId,
 } from "@/lib/schemas/grill";
+import { logger } from "@/lib/logger";
 
 interface ShareCardProps {
   session: GrillSession;
 }
-
-const SCENARIO_TITLE: Record<ScenarioId, string> = {
-  thesis: "论文开题",
-  resume: "简历投递",
-  social: "公众号写作",
-};
 
 const SCENARIO_GRADIENT: Record<ScenarioId, [string, string]> = {
   thesis: ["#667eea", "#764ba2"],
@@ -71,7 +67,9 @@ export function ShareCard({ session }: ShareCardProps) {
       link.href = dataUrl;
       link.click();
     } catch (err) {
-      console.error("share-card export failed", err);
+      logger.error("share-card export failed", {
+        error: err instanceof Error ? err.message : String(err),
+      });
     } finally {
       setBusy(false);
     }
@@ -187,7 +185,7 @@ export function ShareCard({ session }: ShareCardProps) {
                 color: "#B1ADA1",
               }}
             >
-              AI 不帮你写，帮你想清楚 — {SCENARIO_TITLE[session.scenario]}
+              AI 不帮你写，帮你想清楚 — {SCENARIO_LABEL[session.scenario]}
             </div>
           </div>
 

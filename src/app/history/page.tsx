@@ -13,13 +13,7 @@ import {
 import { getServerUser } from "@/lib/auth/get-user";
 import { listSessions, type PersistedSession } from "@/lib/supabase/sessions";
 import { isSupabaseConfigured } from "@/lib/supabase/env";
-import type { ScenarioId } from "@/lib/schemas/grill";
-
-const SCENARIO_LABEL: Record<ScenarioId, string> = {
-  thesis: "论文开题",
-  resume: "简历投递",
-  social: "公众号写作",
-};
+import { type ScenarioId, SCENARIO_LABEL } from "@/lib/schemas/grill";
 
 const SCENARIO_ICON: Record<ScenarioId, typeof BookOpen> = {
   thesis: BookOpen,

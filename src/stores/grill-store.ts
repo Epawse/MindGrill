@@ -91,7 +91,7 @@ export const useGrillStore = create<GrillStoreState>()(
         }),
       recordQuestion: (q) =>
         set({ lastQuestion: q, status: "grilling", updatedAt: Date.now() }),
-      recordAnswer: (a) =>
+      recordAnswer: () =>
         set((state) => ({
           // we still rely on server-applied session for the source of truth;
           // store the answer locally just for optimistic UI hints.
@@ -103,9 +103,6 @@ export const useGrillStore = create<GrillStoreState>()(
                 updatedAt: Date.now(),
               }
             : state.session,
-          // attach raw answer onto store for components that want to highlight it
-          // (no extra field needed beyond status flip; recorded server-side).
-          ...(a ? {} : {}),
         })),
       setSession: (s) => set({ session: s, updatedAt: Date.now() }),
       setStatus: (status, errorMessage = null) =>

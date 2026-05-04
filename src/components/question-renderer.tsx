@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion";
 import { Sparkles, ArrowRight, SkipForward } from "lucide-react";
 
 import {
+  BRANCH_KIND_LABEL,
   type GrillQuestion,
   type UserAnswer,
   type UserAnswerSource,
@@ -21,13 +22,6 @@ interface QuestionRendererProps {
   disabled?: boolean;
   className?: string;
 }
-
-const KIND_LABEL: Record<string, string> = {
-  ARGUMENT: "论点",
-  EVIDENCE: "证据",
-  REBUTTAL: "反驳",
-  REVISION: "修正",
-};
 
 export function QuestionRenderer({
   question,
@@ -77,7 +71,7 @@ function QuestionCard({
     >
         <header className="flex items-center gap-2">
           <Badge variant="secondary" className="font-sans text-xs">
-            {KIND_LABEL[question.branch_kind] ?? question.branch_kind}
+            {BRANCH_KIND_LABEL[question.branch_kind] ?? question.branch_kind}
           </Badge>
           <span className="text-xs text-[var(--color-fg-muted)] font-sans">
             {question.branch_label}

@@ -32,6 +32,20 @@ export class ProviderUnavailableError extends AppError {
   }
 }
 
+export class SessionNotFoundError extends AppError {
+  constructor(sessionId: string) {
+    super("SESSION_NOT_FOUND", 404, `Grill session ${sessionId} not found`, {
+      sessionId,
+    });
+  }
+}
+
+export class UnauthorizedError extends AppError {
+  constructor(message = "请登录后继续") {
+    super("UNAUTHORIZED", 401, message);
+  }
+}
+
 /** Build the JSON Response envelope for any thrown error. */
 export function errorResponse(error: unknown): Response {
   if (error instanceof AppError) {

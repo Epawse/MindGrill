@@ -36,7 +36,7 @@ import { Pause, Play, RotateCcw } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import {
-  BranchKind,
+  BRANCH_KIND_LABEL,
   NodeStatus,
   type DecisionTreeNode,
   type GrillSession,
@@ -110,13 +110,6 @@ const SCENARIO_GRADIENTS: Record<ScenarioId, string> = {
   thesis: "linear-gradient(135deg, var(--scene-thesis-0), var(--scene-thesis-1))",
   resume: "linear-gradient(135deg, var(--scene-resume-0), var(--scene-resume-1))",
   social: "linear-gradient(135deg, var(--scene-social-0), var(--scene-social-1))",
-};
-
-const KIND_LABEL: Record<BranchKind, string> = {
-  ARGUMENT: "论点",
-  EVIDENCE: "证据",
-  REBUTTAL: "反驳",
-  REVISION: "修正",
 };
 
 function statusVisual(
@@ -205,7 +198,7 @@ function TreeNodeView({ data }: NodeProps) {
     >
       <Handle type="target" position={Position.Top} style={{ opacity: 0 }} />
       <div className="flex items-center justify-between text-[10px] uppercase tracking-wide opacity-80 mb-1">
-        <span>{KIND_LABEL[node.kind]}</span>
+        <span>{BRANCH_KIND_LABEL[node.kind]}</span>
         <span>{node.status}</span>
       </div>
       <div className="font-serif text-sm leading-snug line-clamp-2">

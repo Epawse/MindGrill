@@ -18,5 +18,5 @@ export {
   getConfiguredProviders,
 } from "./health-check";
 export type { ProviderHealth } from "./health-check";
-export { getDefaultProvider, getFallbackOrder } from "./defaults";
+export { getDefaultProvider, getFallbackOrder, resolveProvider } from "./defaults";
 export { withFallback } from "./router";

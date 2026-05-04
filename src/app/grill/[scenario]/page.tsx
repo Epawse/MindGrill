@@ -11,6 +11,7 @@ import {
   type GrillSession,
   type Revision,
   SCENARIO_IDS,
+  SCENARIO_LABEL,
   type ScenarioId,
   type UserAnswer,
 } from "@/lib/schemas/grill";
@@ -38,12 +39,6 @@ interface StartResponse {
   session: GrillSession;
   question: GrillQuestion;
 }
-
-const SCENARIO_TITLES: Record<ScenarioId, string> = {
-  thesis: "论文开题",
-  resume: "简历投递",
-  social: "公众号写作",
-};
 
 const SCENARIO_PLACEHOLDERS: Record<ScenarioId, string> = {
   thesis: "粘贴你的论文开题段落，例如：研究问题、核心论点、初步假设…",
@@ -194,7 +189,7 @@ export default function GrillPage({
               className="font-sans text-xs"
               data-scenario={scenario}
             >
-              {SCENARIO_TITLES[scenario]}
+              {SCENARIO_LABEL[scenario]}
             </Badge>
             <Badge variant="outline" className="font-sans text-xs">
               {phaseLabel(phase)}
@@ -204,7 +199,7 @@ export default function GrillPage({
 
         {phase === "INTAKE" && (
           <DraftIntake
-            title={`${SCENARIO_TITLES[scenario]} · 粘贴你的草稿`}
+            title={`${SCENARIO_LABEL[scenario]} · 粘贴你的草稿`}
             placeholder={SCENARIO_PLACEHOLDERS[scenario]}
             onSubmit={onIntakeSubmit}
             disabled={busy}

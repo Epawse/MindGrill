@@ -8,12 +8,14 @@
  */
 import {
   BranchKind,
-  DecisionTreeNode,
   EnginePhase,
-  GrillQuestion,
-  GrillSession,
   GrillSessionSchema,
   NodeStatus,
+} from "@/lib/schemas/grill";
+import type {
+  DecisionTreeNode,
+  GrillQuestion,
+  GrillSession,
   Revision,
   ScenarioId,
   UserAnswer,

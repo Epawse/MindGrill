@@ -10,6 +10,13 @@ export const SCENARIO_IDS = ["thesis", "resume", "social"] as const;
 export const ScenarioId = z.enum(SCENARIO_IDS);
 export type ScenarioId = z.infer<typeof ScenarioId>;
 
+/** Human-readable Chinese titles for each scenario. */
+export const SCENARIO_LABEL: Record<ScenarioId, string> = {
+  thesis: "论文开题",
+  resume: "简历投递",
+  social: "公众号写作",
+};
+
 export const NodeStatus = {
   PENDING: "PENDING",
   ACTIVE: "ACTIVE",
@@ -25,6 +32,14 @@ export const BranchKind = {
   REVISION: "REVISION", // 修正
 } as const;
 export type BranchKind = (typeof BranchKind)[keyof typeof BranchKind];
+
+/** Human-readable Chinese labels for each BranchKind. */
+export const BRANCH_KIND_LABEL: Record<BranchKind, string> = {
+  ARGUMENT: "论点",
+  EVIDENCE: "证据",
+  REBUTTAL: "反驳",
+  REVISION: "修正",
+};
 
 export const EnginePhase = {
   INTAKE: "INTAKE",

@@ -47,3 +47,12 @@ export function getFallbackOrder(primary: ProviderId): ProviderId[] {
   }
   return ordered;
 }
+
+/**
+ * Resolve the effective provider id from an optional user override.
+ * Returns `null` when no provider is configured at all.
+ */
+export function resolveProvider(override?: string): ProviderId | null {
+  if (override && isProviderId(override)) return override;
+  return getDefaultProvider();
+}

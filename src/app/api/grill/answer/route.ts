@@ -25,11 +25,9 @@ import {
   buildRevisionPrompt,
 } from "@/lib/engine/scenarios";
 import {
-  getDefaultProvider,
   getFallbackOrder,
-  isProviderId,
+  resolveProvider,
   withFallback,
-  type ProviderId,
 } from "@/lib/ai";
 import {
   errorResponse,
@@ -70,32 +68,10 @@ export async function POST(req: NextRequest) {
       getFallbackOrder(providerId),
     );
 
+    // If the engine reached THINKING after applying the answer, generate
+    // the final revision and complete the session.
     if (session.phase === EnginePhase.THINKING) {
-      const prompt = buildRevisionPrompt({ session });
-      const result = await generateObject({
-        model,
-        schema: RevisionSchema,
-        system: prompt.systemPrompt,
-        prompt: prompt.userPrompt,
-        temperature: 0.5,
-      });
-      session = completeSession(session, result.object);
-      logger.info("grill.answer.complete", {
-        sessionId: session.id,
-        latencyMs: Date.now() - startedAt,
-      });
-      // Best-effort persistence — anonymous + unconfigured Supabase paths no-op.
-      void upsertSession({
-        session,
-        revision: result.object,
-        revisedDraft: result.object.revised_draft,
-      }).catch((e) => logger.warn("grill.persist.complete.failed", { e: String(e) }));
-      return Response.json({
-        session,
-        complete: true,
-        revisedDraft: result.object.revised_draft,
-        revision: result.object,
-      });
+      return await finalizeSession(session, model, startedAt);
     }
 
     // Otherwise: still grilling — generate the next question.
@@ -129,29 +105,9 @@ export async function POST(req: NextRequest) {
       safety += 1;
     }
 
+    // Auto-skipped nodes may have pushed us into THINKING.
     if (session.phase === EnginePhase.THINKING) {
-      const prompt = buildRevisionPrompt({ session });
-      const result = await generateObject({
-        model,
-        schema: RevisionSchema,
-        system: prompt.systemPrompt,
-        prompt: prompt.userPrompt,
-        temperature: 0.5,
-      });
-      session = completeSession(session, result.object);
-      void upsertSession({
-        session,
-        revision: result.object,
-        revisedDraft: result.object.revised_draft,
-      }).catch((e) =>
-        logger.warn("grill.persist.complete.failed", { e: String(e) }),
-      );
-      return Response.json({
-        session,
-        complete: true,
-        revisedDraft: result.object.revised_draft,
-        revision: result.object,
-      });
+      return await finalizeSession(session, model, startedAt);
     }
 
     logger.info("grill.answer.next", {
@@ -170,13 +126,47 @@ export async function POST(req: NextRequest) {
   }
 }
 
-function resolveProvider(override?: string): ProviderId | null {
-  if (override && isProviderId(override)) return override;
-  return getDefaultProvider();
+/**
+ * Generate the final revision, complete the session, and return the
+ * completion response. Extracted to avoid duplicating the completion
+ * block for the two code paths that can trigger THINKING phase.
+ */
+async function finalizeSession(
+  session: GrillSessionFromEngine,
+  model: ReturnType<typeof withFallback>,
+  startedAt: number,
+): Promise<Response> {
+  const prompt = buildRevisionPrompt({ session });
+  const result = await generateObject({
+    model,
+    schema: RevisionSchema,
+    system: prompt.systemPrompt,
+    prompt: prompt.userPrompt,
+    temperature: 0.5,
+  });
+  session = completeSession(session, result.object);
+  logger.info("grill.answer.complete", {
+    sessionId: session.id,
+    latencyMs: Date.now() - startedAt,
+  });
+  // Best-effort persistence — anonymous + unconfigured Supabase paths no-op.
+  void upsertSession({
+    session,
+    revision: result.object,
+    revisedDraft: result.object.revised_draft,
+  }).catch((e) => logger.warn("grill.persist.complete.failed", { e: String(e) }));
+  return Response.json({
+    session,
+    complete: true,
+    revisedDraft: result.object.revised_draft,
+    revision: result.object,
+  });
 }
 
+type GrillSessionFromEngine = ReturnType<typeof applyAnswer>;
+
 function currentNodeNeedsQuestion(
-  session: ReturnType<typeof applyAnswer>,
+  session: GrillSessionFromEngine,
 ): boolean {
   if (!session.activeNodeId) return false;
   const node = session.nodes[session.activeNodeId];
