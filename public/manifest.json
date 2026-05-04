@@ -1,0 +1,21 @@
+{
+  "name": "辩思 MindGrill — AI 反向写作教练",
+  "short_name": "辩思",
+  "description": "AI 不帮你写，AI 用决策树拷问帮你想清楚论文 / 简历 / 公众号写作。",
+  "start_url": "/",
+  "display": "standalone",
+  "background_color": "#F0EEE6",
+  "theme_color": "#C15F3C",
+  "icons": [
+    {
+      "src": "/icon-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/icon-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ]
+}

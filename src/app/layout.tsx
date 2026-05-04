@@ -21,6 +21,12 @@ export const metadata: Metadata = {
   description:
     "辩思（MindGrill）是 PCG 校园 AI 创意大赛 2026 参赛作品：不帮你写，AI 用决策树拷问帮你想清楚论文 / 简历 / 公众号写作。",
   applicationName: "辩思 MindGrill",
+  manifest: "/manifest.json",
+  appleWebApp: {
+    capable: true,
+    title: "辩思",
+    statusBarStyle: "default",
+  },
   keywords: [
     "AI 写作",
     "辩思",
