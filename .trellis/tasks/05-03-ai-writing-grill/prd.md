@@ -286,7 +286,7 @@ grill-me = 通用追问方法论（面向开发者，CLI，暗色终端）
 
 ### Resolved by grill 1.11+1.12+1.13: 脚手架 + 录屏 + PDF
 
-**脚手架**: 复用 tiktok_hackathon 项目骨架（Next.js 14 + Tailwind + Zustand + Supabase 已配），清理 tiktok 业务代码后替换为辩思页面。
+**脚手架**: 从零搭建 Next.js 14 项目（`create-next-app` + shadcn/ui + Tailwind v4 + Zustand + Supabase），不复用本地参考项目。
 
 **录屏 (提交物 2)**:
 | 段 | 时长 | 内容 |
@@ -370,7 +370,7 @@ grill-me = 通用追问方法论（面向开发者，CLI，暗色终端）
 | 1.8 | Supabase Schema | 2 表，jsonb 决策树 |
 | 1.9 | 引擎 | 纯 TS 4 态状态机 (lib/engine/) |
 | 1.10 | 场景 Prompt | 3 模板 + Zod schema |
-| 1.11 | 脚手架 | 复用 tiktok_hackathon 项目骨架 |
+| 1.11 | 脚手架 | 从零搭建 Next.js 14 项目（create-next-app + shadcn/ui + Tailwind v4） |
 | 1.12 | 录屏 | 4 段结构 (20s+2min+20s+20s) |
 | 1.11 | 脚手架 | 复用 tiktok_hackathon Next.js 14 项目骨架 |
 | 1.12 | 录屏 | 4 段 (20s+2min+20s+20s)，匿名入场→拷问→思维树回放→登录展示历史 |
