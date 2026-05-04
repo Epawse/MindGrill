@@ -1,0 +1,42 @@
+node_modules/
+.next/
+dist/
+.env
+.env.local
+.env.*.local
+*.log
+.DS_Store
+.trellis/.runtime/
+.trellis/workspace/*/journal-*.md
+.trellis/workspace/*/index.md
+.trellis/.developer
+.trellis/.current-task
+.agents/
+.codex/
+.gemini/
+.opencode/
+.claude/
+.kiro/
+.qoder/
+.roo/
+.trae/
+.codebuddy/
+.continue/
+skills/
+
+# TypeScript incremental build cache
+tsconfig.tsbuildinfo
+
+# Pre-existing project docs / artifacts (managed outside this repo)
+_local/
+AGENTS.md
+skills-lock.json
+
+# Trellis system files (this project keeps these out of version control)
+.trellis/.gitignore
+.trellis/.template-hashes.json
+.trellis/.version
+.trellis/config.yaml
+.trellis/scripts/
+.trellis/spec/
+.trellis/workflow.md
