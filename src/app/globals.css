@@ -1,0 +1,284 @@
+@import "tailwindcss";
+@import "tw-animate-css";
+
+@custom-variant dark (&:is(.dark *));
+
+/*
+ * MindGrill (辩思) Design Tokens
+ * Claude-Apple-8Products Fusion
+ * — 米底 #F0EEE6 + Terracotta #C15F3C + Source Han Serif + Liquid Glass + spring motion
+ */
+
+:root {
+  /* === Claude-Apple-8Products Fusion (PRD § 1.5) === */
+  --color-bg: #f0eee6; /* Claude beige base */
+  --color-bg-card: rgba(255, 255, 255, 0.7);
+  --color-bg-pampas: #f4f3ee;
+  --color-fg: #2c2a26;
+  --color-fg-muted: #b1ada1;
+  --color-border-warm: #e8e6dc;
+  --color-accent: #c15f3c; /* Claude terracotta */
+  --color-accent-hover: #a04d2f;
+  --color-accent-bg: rgba(193, 95, 60, 0.08);
+
+  /* Arc-style scene gradients (论文 / 简历 / 公众号) */
+  --scene-thesis-0: #667eea;
+  --scene-thesis-1: #764ba2;
+  --scene-resume-0: #f59e0b;
+  --scene-resume-1: #ef4444;
+  --scene-social-0: #10b981;
+  --scene-social-1: #6366f1;
+
+  /* Liquid Glass (Apple + Arc + Dot consensus) */
+  --glass-blur: 16px;
+  --glass-bg: rgba(255, 255, 255, 0.7);
+  --glass-border: rgba(0, 0, 0, 0.06);
+  --glass-shadow: 0 1px 3px rgba(0, 0, 0, 0.04);
+  --glass-shadow-elevated: 0 4px 12px rgba(0, 0, 0, 0.08);
+
+  /* Spacing (Linear 4px UI + 8px layout) */
+  --spacing-ui: 4px;
+  --spacing-layout: 8px;
+  --spacing-section: 24px;
+
+  /* Radius (Linear precise + Apple concentric) */
+  --radius: 0.625rem; /* shadcn baseline */
+  --radius-pill: 9999px;
+  --radius-card: 16px;
+  --radius-button: 10px;
+  --radius-badge: 6px;
+
+  /* Motion */
+  --liquid-spring-stiffness: 280;
+  --liquid-spring-damping: 28;
+
+  /* === shadcn/ui neutral palette mapped onto our warm theme === */
+  --background: var(--color-bg);
+  --foreground: var(--color-fg);
+  --card: rgba(255, 255, 255, 0.85);
+  --card-foreground: var(--color-fg);
+  --popover: #ffffff;
+  --popover-foreground: var(--color-fg);
+  --primary: var(--color-accent);
+  --primary-foreground: #ffffff;
+  --secondary: #ebe9e0;
+  --secondary-foreground: var(--color-fg);
+  --muted: #ebe9e0;
+  --muted-foreground: #7a7669;
+  --accent: var(--color-accent-bg);
+  --accent-foreground: var(--color-accent-hover);
+  --destructive: #b3261e;
+  --border: var(--color-border-warm);
+  --input: var(--color-border-warm);
+  --ring: var(--color-accent);
+
+  --chart-1: var(--scene-thesis-0);
+  --chart-2: var(--scene-resume-0);
+  --chart-3: var(--scene-social-0);
+  --chart-4: var(--scene-thesis-1);
+  --chart-5: var(--scene-resume-1);
+
+  --sidebar: rgba(255, 255, 255, 0.6);
+  --sidebar-foreground: var(--color-fg);
+  --sidebar-primary: var(--color-accent);
+  --sidebar-primary-foreground: #ffffff;
+  --sidebar-accent: #ebe9e0;
+  --sidebar-accent-foreground: var(--color-fg);
+  --sidebar-border: var(--color-border-warm);
+  --sidebar-ring: var(--color-accent);
+}
+
+.dark {
+  /* MindGrill is light-mode-first per PRD § 1.5 risk table.
+     Provide a graceful dark theme just in case the user toggles. */
+  --background: #1c1b18;
+  --foreground: #f0eee6;
+  --card: rgba(36, 34, 30, 0.85);
+  --card-foreground: #f0eee6;
+  --popover: #25231f;
+  --popover-foreground: #f0eee6;
+  --primary: #d77757;
+  --primary-foreground: #2c2a26;
+  --secondary: #2f2d29;
+  --secondary-foreground: #f0eee6;
+  --muted: #2f2d29;
+  --muted-foreground: #b1ada1;
+  --accent: rgba(193, 95, 60, 0.18);
+  --accent-foreground: #ffb999;
+  --destructive: #ef5350;
+  --border: rgba(255, 255, 255, 0.08);
+  --input: rgba(255, 255, 255, 0.12);
+  --ring: #d77757;
+  --color-bg: #1c1b18;
+  --color-bg-card: rgba(36, 34, 30, 0.7);
+  --color-fg: #f0eee6;
+  --color-fg-muted: #8c887d;
+  --color-border-warm: rgba(255, 255, 255, 0.08);
+  --color-accent: #d77757;
+  --color-accent-hover: #ef9573;
+  --color-accent-bg: rgba(215, 119, 87, 0.16);
+  --glass-bg: rgba(36, 34, 30, 0.65);
+  --glass-border: rgba(255, 255, 255, 0.08);
+  --sidebar: rgba(36, 34, 30, 0.6);
+  --sidebar-foreground: #f0eee6;
+  --sidebar-primary: #d77757;
+  --sidebar-primary-foreground: #2c2a26;
+  --sidebar-accent: #2f2d29;
+  --sidebar-accent-foreground: #f0eee6;
+  --sidebar-border: rgba(255, 255, 255, 0.08);
+  --sidebar-ring: #d77757;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-card: var(--card);
+  --color-card-foreground: var(--card-foreground);
+  --color-popover: var(--popover);
+  --color-popover-foreground: var(--popover-foreground);
+  --color-primary: var(--primary);
+  --color-primary-foreground: var(--primary-foreground);
+  --color-secondary: var(--secondary);
+  --color-secondary-foreground: var(--secondary-foreground);
+  --color-muted: var(--muted);
+  --color-muted-foreground: var(--muted-foreground);
+  --color-accent: var(--accent);
+  --color-accent-foreground: var(--accent-foreground);
+  --color-destructive: var(--destructive);
+  --color-border: var(--border);
+  --color-input: var(--input);
+  --color-ring: var(--ring);
+  --color-chart-1: var(--chart-1);
+  --color-chart-2: var(--chart-2);
+  --color-chart-3: var(--chart-3);
+  --color-chart-4: var(--chart-4);
+  --color-chart-5: var(--chart-5);
+  --color-sidebar: var(--sidebar);
+  --color-sidebar-foreground: var(--sidebar-foreground);
+  --color-sidebar-primary: var(--sidebar-primary);
+  --color-sidebar-primary-foreground: var(--sidebar-primary-foreground);
+  --color-sidebar-accent: var(--sidebar-accent);
+  --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
+  --color-sidebar-border: var(--sidebar-border);
+  --color-sidebar-ring: var(--sidebar-ring);
+
+  --radius-sm: calc(var(--radius) - 4px);
+  --radius-md: calc(var(--radius) - 2px);
+  --radius-lg: var(--radius);
+  --radius-xl: calc(var(--radius) + 4px);
+
+  --font-sans:
+    "Inter Variable", "Inter", "Source Han Sans SC", "PingFang SC",
+    "Hiragino Sans GB", system-ui, sans-serif;
+  --font-serif:
+    "Source Han Serif CN VF", "Source Han Serif SC", "Tiempos Text",
+    "Noto Serif SC", "Songti SC", "STSong", serif;
+  --font-mono:
+    "JetBrains Mono Variable", "JetBrains Mono", "SF Mono", ui-monospace,
+    monospace;
+}
+
+@layer base {
+  * {
+    @apply border-border outline-ring/50;
+  }
+  html,
+  body {
+    @apply bg-background text-foreground antialiased;
+    font-family: var(--font-sans);
+  }
+  body {
+    background:
+      radial-gradient(
+        1200px 600px at 0% 0%,
+        rgba(193, 95, 60, 0.05),
+        transparent 60%
+      ),
+      radial-gradient(
+        900px 500px at 100% 100%,
+        rgba(118, 75, 162, 0.04),
+        transparent 60%
+      ),
+      var(--color-bg);
+  }
+  h1,
+  h2,
+  h3,
+  .font-serif {
+    font-family: var(--font-serif);
+    letter-spacing: 0.01em;
+  }
+}
+
+/* === Liquid Glass utilities === */
+@utility glass-card {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow);
+  backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(140%);
+  border-radius: var(--radius-card);
+}
+
+@utility glass-card-elevated {
+  background: var(--glass-bg);
+  border: 1px solid var(--glass-border);
+  box-shadow: var(--glass-shadow-elevated);
+  backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(160%);
+  border-radius: var(--radius-card);
+}
+
+@utility scene-gradient-thesis {
+  background: linear-gradient(
+    135deg,
+    var(--scene-thesis-0),
+    var(--scene-thesis-1)
+  );
+}
+
+@utility scene-gradient-resume {
+  background: linear-gradient(
+    135deg,
+    var(--scene-resume-0),
+    var(--scene-resume-1)
+  );
+}
+
+@utility scene-gradient-social {
+  background: linear-gradient(
+    135deg,
+    var(--scene-social-0),
+    var(--scene-social-1)
+  );
+}
+
+/* === AI thinking streak (Cosmos-inspired, replaces spinner) === */
+@keyframes streak-slide {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(200%);
+  }
+}
+
+.streak-loader::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    90deg,
+    transparent,
+    rgba(193, 95, 60, 0.45),
+    transparent
+  );
+  animation: streak-slide 1.6s cubic-bezier(0.4, 0, 0.2, 1) infinite;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .streak-loader::after {
+    animation: none;
+    background: rgba(193, 95, 60, 0.18);
+  }
+}
