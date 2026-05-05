@@ -1,0 +1,11 @@
+{"file": ".trellis/spec/backend/index.md", "reason": "Main backend spec — API route conventions, middleware"}
+{"file": ".trellis/spec/backend/ai-provider-guidelines.md", "reason": "Provider registry + key rotation architecture — core to this task"}
+{"file": ".trellis/spec/backend/database-guidelines.md", "reason": "Supabase migration + RLS conventions for user_provider_keys table"}
+{"file": ".trellis/spec/backend/error-handling.md", "reason": "API error response format for key/test routes"}
+{"file": ".trellis/spec/backend/directory-structure.md", "reason": "File placement for new API routes and lib modules"}
+{"file": ".trellis/spec/frontend/index.md", "reason": "Main frontend spec — page routing, layout"}
+{"file": ".trellis/spec/frontend/component-guidelines.md", "reason": "Settings page component patterns"}
+{"file": ".trellis/spec/frontend/hook-guidelines.md", "reason": "Custom hooks for key management API calls"}
+{"file": ".trellis/spec/frontend/directory-structure.md", "reason": "Frontend file placement for settings page"}
+{"file": ".trellis/spec/guides/cross-layer-thinking-guide.md", "reason": "Task spans backend + frontend — cross-layer consistency"}
+{"file": ".trellis/tasks/05-05-provider-config-ui/research/web-api-key-storage.md", "reason": "Research: web API key storage patterns + encryption"}
