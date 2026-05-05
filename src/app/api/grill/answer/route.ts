@@ -38,6 +38,7 @@ import {
 } from "@/lib/errors";
 import { logger } from "@/lib/logger";
 import { upsertSession } from "@/lib/supabase/sessions";
+import { checkAndDeductQuota } from "@/lib/access-codes";
 
 export const runtime = "nodejs";
 
@@ -71,6 +72,37 @@ export async function POST(req: NextRequest) {
     const userKey = serverUser
       ? await getUserProviderKey(serverUser.user.id, providerId)
       : null;
+
+    // Access code quota deduction: logged-in users bypass;
+    // anonymous users must have a valid access code with remaining quota.
+    if (!serverUser) {
+      const code = req.cookies.get("access_code")?.value;
+      if (!code) {
+        return Response.json(
+          { error: { code: "ACCESS_CODE_REQUIRED", message: "需要有效的访问码" } },
+          { status: 403 },
+        );
+      }
+      const quota = await checkAndDeductQuota(code);
+      if (!quota.allowed) {
+        const messages: Record<string, string> = {
+          not_found: "访问码无效",
+          expired: "访问码已过期",
+          revoked: "访问码已被吊销",
+          quota_exhausted: "访问码额度已用完",
+        };
+        return Response.json(
+          {
+            error: {
+              code: "QUOTA_EXCEEDED",
+              message: messages[quota.reason ?? "not_found"] ?? "访问码无效",
+            },
+          },
+          { status: 403 },
+        );
+      }
+    }
+
     const model = userKey
       ? getModelWithUserKey(providerId, undefined, userKey)
       : withFallback(

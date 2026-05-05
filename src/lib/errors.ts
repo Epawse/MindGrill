@@ -46,6 +46,18 @@ export class UnauthorizedError extends AppError {
   }
 }
 
+export class ForbiddenError extends AppError {
+  constructor(message = "权限不足") {
+    super("FORBIDDEN", 403, message);
+  }
+}
+
+export class AccessCodeRequiredError extends AppError {
+  constructor(message = "需要有效的访问码") {
+    super("ACCESS_CODE_REQUIRED", 403, message);
+  }
+}
+
 /** Build the JSON Response envelope for any thrown error. */
 export function errorResponse(error: unknown): Response {
   if (error instanceof AppError) {
