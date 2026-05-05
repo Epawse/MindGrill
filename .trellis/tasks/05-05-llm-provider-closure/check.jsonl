@@ -1,0 +1,6 @@
+{"file": ".trellis/tasks/05-05-llm-provider-closure/prd.md", "reason": "PRD acceptance criteria to verify against"}
+{"file": ".trellis/tasks/05-03-ai-writing-grill/research/multi-llm-provider-closure.md", "reason": "Research reference for AionUi patterns and AI SDK 5 createProviderRegistry usage"}
+{"file": ".trellis/spec/backend/error-handling.md", "reason": "Verify error classes conform to spec"}
+{"file": ".trellis/spec/backend/logging-guidelines.md", "reason": "Verify logger usage (no console.log)"}
+{"file": ".trellis/spec/frontend/type-safety.md", "reason": "Verify import type usage and Zod schema compliance"}
+{"file": ".trellis/spec/backend/quality-guidelines.md", "reason": "Quality verification for backend changes"}

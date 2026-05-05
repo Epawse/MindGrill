@@ -1,0 +1,7 @@
+{"file": ".trellis/tasks/05-05-llm-provider-closure/prd.md", "reason": "Full PRD — implementation contract with 7 requirements, 6 modules, architectural decisions"}
+{"file": ".trellis/tasks/05-03-ai-writing-grill/research/multi-llm-provider-closure.md", "reason": "AionUi analysis + mainstream LLM management comparison + 4-step closure recommendations"}
+{"file": ".trellis/spec/backend/error-handling.md", "reason": "Error class patterns — ProviderConfigError/AllProvidersFailedError must follow spec"}
+{"file": ".trellis/spec/backend/logging-guidelines.md", "reason": "Logger module usage — rotation blacklist events must use logger, not console"}
+{"file": ".trellis/spec/backend/quality-guidelines.md", "reason": "Quality bar for backend code changes"}
+{"file": ".trellis/spec/frontend/type-safety.md", "reason": "TypeScript strict + Zod + import type conventions"}
+{"file": ".trellis/spec/guides/code-reuse-thinking-guide.md", "reason": "Key rotation and registry logic are new shared modules — follow reuse principles"}
