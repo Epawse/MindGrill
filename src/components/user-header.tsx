@@ -11,7 +11,7 @@
  */
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { History, LogOut, UserRound } from "lucide-react";
+import { History, LogOut, Settings, UserRound } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
@@ -96,6 +96,11 @@ export function UserHeader() {
       <Button asChild variant="outline" size="sm">
         <Link href="/history">
           <History className="size-4" /> 我的拷问
+        </Link>
+      </Button>
+      <Button asChild variant="outline" size="sm">
+        <Link href="/settings">
+          <Settings className="size-4" /> 设置
         </Link>
       </Button>
       <form action="/auth/sign-out" method="post">
