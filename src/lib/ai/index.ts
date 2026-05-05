@@ -33,3 +33,9 @@ export {
   blacklistSize,
   keyPrefix,
 } from "./key-rotation";
+// User key injection (per-user API keys, bypasses registry + blacklist)
+// NOTE: getModelWithUserKey is server-only (uses SDK providers with API keys).
+// getUserProviderKey is server-only (uses Supabase + decryption).
+// Do NOT re-export encrypt/decrypt here — they use node:crypto and must
+// never be imported from client-side code.
+export { getModelWithUserKey, getUserProviderKey } from "./user-key";

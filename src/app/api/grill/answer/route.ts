@@ -7,7 +7,7 @@
  *   { session, complete: true, revisedDraft } — engine reached COMPLETE; revision attached
  */
 import { NextRequest } from "next/server";
-import { generateObject } from "ai";
+import { generateObject, type LanguageModel } from "ai";
 
 import {
   AnswerInputSchema,
@@ -29,6 +29,8 @@ import {
   resolveProvider,
   withFallback,
 } from "@/lib/ai";
+import { getModelWithUserKey, getUserProviderKey } from "@/lib/ai/user-key";
+import { getServerUser } from "@/lib/auth/get-user";
 import {
   errorResponse,
   ProviderUnavailableError,
@@ -62,11 +64,20 @@ export async function POST(req: NextRequest) {
     }
 
     let session = applyAnswer(parsed.data.session, answer);
-    const model = withFallback(
-      providerId,
-      undefined,
-      getFallbackOrder(providerId),
-    );
+
+    // User key priority: if the user is logged in and has a key for this provider,
+    // use it directly (bypasses env key + blacklist). Otherwise, fall back to env key.
+    const serverUser = await getServerUser();
+    const userKey = serverUser
+      ? await getUserProviderKey(serverUser.user.id, providerId)
+      : null;
+    const model = userKey
+      ? getModelWithUserKey(providerId, undefined, userKey)
+      : withFallback(
+          providerId,
+          undefined,
+          getFallbackOrder(providerId),
+        );
 
     // If the engine reached THINKING after applying the answer, generate
     // the final revision and complete the session.
@@ -133,7 +144,7 @@ export async function POST(req: NextRequest) {
  */
 async function finalizeSession(
   session: GrillSessionFromEngine,
-  model: ReturnType<typeof withFallback>,
+  model: LanguageModel,
   startedAt: number,
 ): Promise<Response> {
   const prompt = buildRevisionPrompt({ session });

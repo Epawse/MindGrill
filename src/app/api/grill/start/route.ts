@@ -23,6 +23,8 @@ import {
   resolveProvider,
   withFallback,
 } from "@/lib/ai";
+import { getModelWithUserKey, getUserProviderKey } from "@/lib/ai/user-key";
+import { getServerUser } from "@/lib/auth/get-user";
 import { errorResponse, ValidationError, ProviderUnavailableError } from "@/lib/errors";
 import { logger } from "@/lib/logger";
 import { upsertSession } from "@/lib/supabase/sessions";
@@ -53,17 +55,27 @@ export async function POST(req: NextRequest) {
 
     let session = createSession(scenario, draft);
     const prompt = buildScenarioPrompt(scenario, { session });
-    const model = withFallback(
-      providerId,
-      undefined,
-      getFallbackOrder(providerId),
-    );
+
+    // User key priority: if the user is logged in and has a key for this provider,
+    // use it directly (bypasses env key + blacklist). Otherwise, fall back to env key.
+    const serverUser = await getServerUser();
+    const userKey = serverUser
+      ? await getUserProviderKey(serverUser.user.id, providerId)
+      : null;
+    const model = userKey
+      ? getModelWithUserKey(providerId, undefined, userKey)
+      : withFallback(
+          providerId,
+          undefined,
+          getFallbackOrder(providerId),
+        );
 
     logger.info("grill.start", {
       sessionId: session.id,
       scenario,
       providerId,
       draftLength: draft.length,
+      userKeyUsed: !!userKey,
     });
 
     const result = await generateObject({
