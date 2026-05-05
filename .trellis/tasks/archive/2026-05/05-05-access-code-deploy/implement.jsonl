@@ -1,0 +1,10 @@
+{"_example": "Fill with {\"file\": \"<path>\", \"reason\": \"<why>\"}. Put spec/research files only — no code paths. Run `python3 .trellis/scripts/get_context.py --mode packages` to list available specs. Delete this line once real entries are added."}
+{"file": ".trellis/spec/backend/index.md", "reason": "Main backend spec — API route conventions"}
+{"file": ".trellis/spec/backend/database-guidelines.md", "reason": "Supabase migration + RLS conventions for access_codes table"}
+{"file": ".trellis/spec/backend/error-handling.md", "reason": "API error response format"}
+{"file": ".trellis/spec/backend/directory-structure.md", "reason": "File placement for new API routes and middleware"}
+{"file": ".trellis/spec/frontend/index.md", "reason": "Main frontend spec — page routing, layout"}
+{"file": ".trellis/spec/frontend/component-guidelines.md", "reason": "Verify page and admin page component patterns"}
+{"file": ".trellis/spec/frontend/hook-guidelines.md", "reason": "Custom hooks for access code API calls"}
+{"file": ".trellis/spec/frontend/directory-structure.md", "reason": "Frontend file placement"}
+{"file": ".trellis/spec/guides/cross-layer-thinking-guide.md", "reason": "Task spans backend + frontend"}
