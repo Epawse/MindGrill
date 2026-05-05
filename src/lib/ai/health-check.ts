@@ -9,6 +9,7 @@ import {
   type ProviderId,
   type ProviderMeta,
 } from "./provider-registry";
+import { parseApiKeys } from "./key-rotation";
 
 export interface ProviderHealth {
   id: ProviderId;
@@ -17,12 +18,15 @@ export interface ProviderHealth {
   missingEnv: string[];
   recommendedModels: string[];
   blurb: string;
+  /** Number of API keys parsed from the env var (1 for single key, N for comma-separated). */
+  keyCount: number;
 }
 
 function checkOne(meta: ProviderMeta): ProviderHealth {
   const missing: string[] = [];
-  const apiKey = process.env[meta.envKey];
-  if (!apiKey || apiKey.length === 0) missing.push(meta.envKey);
+  const rawKey = process.env[meta.envKey];
+  const keys = parseApiKeys(rawKey);
+  if (keys.length === 0) missing.push(meta.envKey);
   if (meta.requiresBaseUrl) {
     const explicit = meta.baseUrlEnvKey
       ? process.env[meta.baseUrlEnvKey]
@@ -37,6 +41,7 @@ function checkOne(meta: ProviderMeta): ProviderHealth {
     missingEnv: missing,
     recommendedModels: meta.recommendedModels,
     blurb: meta.blurb,
+    keyCount: keys.length,
   };
 }
 

@@ -12,7 +12,7 @@ export {
 } from "./provider-registry";
 export type { ProviderId, ProviderMeta } from "./provider-registry";
 export { ProviderConfigError, AllProvidersFailedError } from "./errors";
-export { getModel } from "./factory";
+export { getModel, reportKeyFailure, getProviderKeys } from "./factory";
 export {
   getProviderHealth,
   getConfiguredProviders,
@@ -20,3 +20,16 @@ export {
 export type { ProviderHealth } from "./health-check";
 export { getDefaultProvider, getFallbackOrder, resolveProvider } from "./defaults";
 export { withFallback } from "./router";
+// Registry & key rotation
+export { getRegistry, resetRegistry, getRegistryModel } from "./registry";
+export {
+  parseApiKeys,
+  selectKey,
+  blacklistKey,
+  isBlacklisted,
+  shouldBlacklist,
+  availableKeyCount,
+  clearBlacklist,
+  blacklistSize,
+  keyPrefix,
+} from "./key-rotation";
