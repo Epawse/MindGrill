@@ -13,7 +13,7 @@ import { logger } from "@/lib/logger";
 export async function requireAdmin() {
   const serverUser = await getServerUser();
   if (!serverUser) {
-    throw new UnauthorizedError("请登录后管理访问码");
+    throw new UnauthorizedError("请登录后继续管理操作");
   }
 
   const supabase = await getServerSupabase();

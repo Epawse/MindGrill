@@ -34,11 +34,12 @@ import { getServerUser } from "@/lib/auth/get-user";
 import {
   errorResponse,
   ProviderUnavailableError,
+  UnauthorizedError,
   ValidationError,
 } from "@/lib/errors";
 import { logger } from "@/lib/logger";
 import { upsertSession } from "@/lib/supabase/sessions";
-import { checkAndDeductQuota } from "@/lib/access-codes";
+import { deductCredit } from "@/lib/subscription";
 
 export const runtime = "nodejs";
 
@@ -66,36 +67,31 @@ export async function POST(req: NextRequest) {
 
     let session = applyAnswer(parsed.data.session, answer);
 
-    // User key priority: if the user is logged in and has a key for this provider,
-    // use it directly (bypasses env key + blacklist). Otherwise, fall back to env key.
+    // Require authentication — no anonymous access.
     const serverUser = await getServerUser();
-    const userKey = serverUser
-      ? await getUserProviderKey(serverUser.user.id, providerId)
-      : null;
-
-    // Access code quota deduction: logged-in users bypass;
-    // anonymous users must have a valid access code with remaining quota.
     if (!serverUser) {
-      const code = req.cookies.get("access_code")?.value;
-      if (!code) {
-        return Response.json(
-          { error: { code: "ACCESS_CODE_REQUIRED", message: "需要有效的访问码" } },
-          { status: 403 },
-        );
-      }
-      const quota = await checkAndDeductQuota(code);
-      if (!quota.allowed) {
+      throw new UnauthorizedError("请登录后继续");
+    }
+
+    // User key priority: if the user has their own API key for this provider,
+    // use it directly. Users with their own key don't consume platform credits.
+    const userKey = await getUserProviderKey(serverUser.user.id, providerId);
+
+    // Deduct platform credit if user is NOT using their own key.
+    // PRO plan (unlimited) and users with own keys bypass credit deduction.
+    if (!userKey) {
+      const creditResult = await deductCredit(serverUser.user.id);
+      if (!creditResult.allowed) {
         const messages: Record<string, string> = {
-          not_found: "访问码无效",
-          expired: "访问码已过期",
-          revoked: "访问码已被吊销",
-          quota_exhausted: "访问码额度已用完",
+          no_subscription: "未找到订阅信息，请先登录",
+          no_plan: "套餐信息异常",
+          no_credits: "额度已用完，请升级套餐或配置自己的 API Key",
         };
         return Response.json(
           {
             error: {
               code: "QUOTA_EXCEEDED",
-              message: messages[quota.reason ?? "not_found"] ?? "访问码无效",
+              message: messages[creditResult.reason ?? "no_credits"] ?? "额度不足",
             },
           },
           { status: 403 },

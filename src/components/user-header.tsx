@@ -11,11 +11,12 @@
  */
 import { useEffect, useState } from "react";
 import Link from "next/link";
-import { History, LogOut, Settings, UserRound } from "lucide-react";
+import { History, LogOut, Settings, UserRound, CreditCard } from "lucide-react";
 
 import { Badge } from "@/components/ui/badge";
 import { Button } from "@/components/ui/button";
 import { getBrowserSupabase } from "@/lib/supabase/client";
+import { useSubscription } from "@/hooks/use-subscription";
 
 interface AuthState {
   email: string | null;
@@ -23,6 +24,7 @@ interface AuthState {
 }
 
 export function UserHeader() {
+  const { subscription } = useSubscription();
   // Compute configuration synchronously at hydration time so the effect only
   // ever runs the async user/profile fetch (never an idempotent setState that
   // would trigger react-hooks/set-state-in-effect).
@@ -93,6 +95,20 @@ export function UserHeader() {
       <span className="text-[var(--color-fg-muted)] hidden sm:inline">
         你好, <span className="text-[var(--color-fg)]">{state.displayName}</span>
       </span>
+      {subscription && (
+        <Badge
+          variant="outline"
+          className="font-sans text-xs cursor-pointer"
+          asChild
+        >
+          <Link href="/pricing">
+            <CreditCard className="size-3 mr-1" />
+            {subscription.is_unlimited
+              ? "不限量"
+              : `${subscription.credits_remaining}次`}
+          </Link>
+        </Badge>
+      )}
       <Button asChild variant="outline" size="sm">
         <Link href="/history">
           <History className="size-4" /> 我的拷问

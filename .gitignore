@@ -40,3 +40,4 @@ skills-lock.json
 .trellis/scripts/
 .trellis/spec/
 .trellis/workflow.md
+.vercel

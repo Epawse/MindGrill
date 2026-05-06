@@ -1,13 +1,13 @@
 /**
- * PATCH /api/access-codes/:id/revoke
+ * PATCH /api/admin/redeem-codes/[id]/revoke
  *
- * Revoke an access code. Admin only.
+ * Revoke a redemption code. Admin only.
  */
 import { NextRequest } from "next/server";
 
-import { requireAdmin } from "@/lib/access-codes/admin-auth";
-import { revokeCode } from "@/lib/access-codes";
-import { errorResponse, ValidationError } from "@/lib/errors";
+import { requireAdmin } from "@/lib/auth/admin-auth";
+import { revokeRedeemCode } from "@/lib/redeem";
+import { errorResponse } from "@/lib/errors";
 import { logger } from "@/lib/logger";
 
 export const runtime = "nodejs";
@@ -20,22 +20,19 @@ export async function PATCH(
     await requireAdmin();
 
     const { id } = await params;
-    if (!id) {
-      throw new ValidationError("id", "缺少访问码 ID");
-    }
+    const code = await revokeRedeemCode(id);
 
-    const code = await revokeCode(id);
     if (!code) {
       return Response.json(
-        { error: { code: "NOT_FOUND", message: "访问码不存在" } },
+        { error: { code: "NOT_FOUND", message: "兑换码未找到" } },
         { status: 404 },
       );
     }
 
-    logger.info("access_codes.revoke.ok", { id });
+    logger.info("admin.redeem_codes.revoke.ok", { id });
     return Response.json({ code });
   } catch (error) {
-    logger.error("access_codes.revoke.error", {
+    logger.error("admin.redeem_codes.revoke.error", {
       error: error instanceof Error ? error.message : String(error),
     });
     return errorResponse(error);
