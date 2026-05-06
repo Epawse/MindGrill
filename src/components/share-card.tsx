@@ -245,7 +245,7 @@ export function ShareCard({ session }: ShareCardProps) {
             <div>
               <div>{formatTime(session.completedAt ?? session.updatedAt)}</div>
               <div style={{ marginTop: 6 }}>
-                反工具化 AI 写作教练 · 灵感源自 grill-me 53.4k★
+                反工具化 AI 写作教练 · 决策树拷问
               </div>
             </div>
             <div

@@ -74,13 +74,7 @@ export default function Home() {
           AI 不帮你写，<span className="text-[var(--color-accent)]">帮你想清楚</span>。
         </p>
         <p className="font-sans text-base sm:text-lg text-[var(--color-fg-muted)] max-w-2xl leading-relaxed">
-          灵感来自 <a
-            href="https://github.com/mattpocock/skills"
-            target="_blank"
-            rel="noreferrer"
-            className="underline-offset-4 hover:underline text-[var(--color-fg)]"
-          >mattpocock/grill-me</a>（GitHub 53.4k ⭐）的决策树拷问机制——首次将其从「程序员代码设计」迁移到「中文写作思维教练」。
-          一次一问 + 推荐答案，5–8 轮看清自己写到哪儿。
+          不替你写，只替你问。AI 沿论点→证据→反驳→修正的决策树循环追问，每一轮给出推荐答案和备选路径，6–8 轮后帮你生成一版信息密度更高的改稿。
         </p>
         <ProviderBadge loading={loading} configured={anyConfigured} />
       </motion.header>
@@ -105,13 +99,8 @@ export default function Home() {
         ))}
       </section>
 
-      <footer className="w-full max-w-5xl mt-16 text-xs text-[var(--color-fg-muted)] font-sans flex flex-col sm:flex-row items-start sm:items-center gap-2 justify-between">
-        <span>
-          © 2026 辩思 MindGrill — 反工具化 AI 写作教练
-        </span>
-        <span>
-          Pass 2 · 决策树 + 多供应商 + 思维进化树 + 改稿 diff + 分享卡片 + 登录历史
-        </span>
+      <footer className="w-full max-w-5xl mt-16 text-xs text-[var(--color-fg-muted)] font-sans">
+        © 2026 辩思 MindGrill — 反工具化 AI 写作教练
       </footer>
 
       <Dialog open={showConfigDialog} onOpenChange={setShowConfigDialog}>

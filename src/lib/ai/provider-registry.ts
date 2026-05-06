@@ -51,7 +51,7 @@ export const PROVIDERS: ProviderMeta[] = [
     supportsVision: true,
     supportsJsonSchema: true,
     envKey: "OPENAI_API_KEY",
-    blurb: "GPT-4o / GPT-4.1 系列；fallback 稳定首选。",
+    blurb: "",
   },
   {
     id: "anthropic",
@@ -65,7 +65,7 @@ export const PROVIDERS: ProviderMeta[] = [
     supportsVision: true,
     supportsJsonSchema: true,
     envKey: "ANTHROPIC_API_KEY",
-    blurb: "Claude Sonnet / Haiku；长文与对话教练手感最佳。",
+    blurb: "",
   },
   {
     id: "google",
@@ -79,7 +79,7 @@ export const PROVIDERS: ProviderMeta[] = [
     supportsVision: true,
     supportsJsonSchema: true,
     envKey: "GOOGLE_GENERATIVE_AI_API_KEY",
-    blurb: "Gemini Flash / Pro；多模态强、免费额度大。",
+    blurb: "",
   },
   {
     id: "deepseek",
@@ -90,7 +90,7 @@ export const PROVIDERS: ProviderMeta[] = [
     supportsVision: false,
     supportsJsonSchema: true,
     envKey: "DEEPSEEK_API_KEY",
-    blurb: "DeepSeek V3 / R1；中文推理性价比之王。",
+    blurb: "",
   },
   {
     id: "qwen",
@@ -101,7 +101,7 @@ export const PROVIDERS: ProviderMeta[] = [
     supportsVision: true,
     supportsJsonSchema: true,
     envKey: "QWEN_API_KEY",
-    blurb: "Qwen3 系列；中文写作风格自然。",
+    blurb: "",
   },
   {
     id: "glm",
@@ -112,7 +112,7 @@ export const PROVIDERS: ProviderMeta[] = [
     supportsVision: true,
     supportsJsonSchema: true,
     envKey: "GLM_API_KEY",
-    blurb: "GLM-4 系列；学术追问表现稳。",
+    blurb: "",
   },
   {
     id: "hunyuan",
@@ -123,7 +123,7 @@ export const PROVIDERS: ProviderMeta[] = [
     supportsVision: false,
     supportsJsonSchema: false,
     envKey: "HUNYUAN_API_KEY",
-    blurb: "腾讯混元；超长上下文中文写作。",
+    blurb: "",
   },
   {
     id: "doubao",
@@ -138,7 +138,7 @@ export const PROVIDERS: ProviderMeta[] = [
     supportsVision: true,
     supportsJsonSchema: false,
     envKey: "DOUBAO_API_KEY",
-    blurb: "字节豆包；中文流式首包 < 300ms。",
+    blurb: "",
   },
   {
     id: "ollama-cloud",
@@ -155,7 +155,7 @@ export const PROVIDERS: ProviderMeta[] = [
     supportsVision: false,
     supportsJsonSchema: true,
     envKey: "OLLAMA_API_KEY",
-    blurb: "开源前沿模型 / OpenAI 兼容；本项目实测主选。",
+    blurb: "",
   },
   {
     id: "openai-compatible",
@@ -166,7 +166,7 @@ export const PROVIDERS: ProviderMeta[] = [
     supportsVision: false,
     supportsJsonSchema: true,
     envKey: "OPENAI_COMPATIBLE_API_KEY",
-    blurb: "任意 OpenAI 兼容网关（NewAPI / Vercel AI Gateway / 自托管）。",
+    blurb: "",
   },
 ];
 

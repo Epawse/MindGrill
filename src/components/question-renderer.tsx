@@ -52,10 +52,14 @@ function QuestionCard({
 }: QuestionRendererProps) {
   const [freeText, setFreeText] = useState("");
   const [showFreeText, setShowFreeText] = useState(false);
+  const [selectedSource, setSelectedSource] = useState<UserAnswerSource | null>(null);
 
   function emit(source: UserAnswerSource, text: string) {
-    if (disabled) return;
-    onSubmit({ source, text, ts: Date.now() });
+    if (disabled || selectedSource) return;
+    setSelectedSource(source);
+    setTimeout(() => {
+      onSubmit({ source, text, ts: Date.now() });
+    }, 300);
   }
 
   return (
@@ -97,22 +101,22 @@ function QuestionCard({
           <RecommendedCard
             text={question.recommended_answer}
             disabled={disabled}
+            selected={selectedSource === "RECOMMENDED"}
             onPick={() => emit("RECOMMENDED", question.recommended_answer)}
           />
-          {question.alternatives.map((alt, i) => (
-            <AlternativeCard
-              key={i}
-              index={i}
-              text={alt}
-              disabled={disabled}
-              onPick={() =>
-                emit(
-                  i === 0 ? "ALTERNATIVE_1" : "ALTERNATIVE_2",
-                  alt,
-                )
-              }
-            />
-          ))}
+          {question.alternatives.map((alt, i) => {
+            const source = i === 0 ? "ALTERNATIVE_1" as const : "ALTERNATIVE_2" as const;
+            return (
+              <AlternativeCard
+                key={i}
+                index={i}
+                text={alt}
+                disabled={disabled}
+                selected={selectedSource === source}
+                onPick={() => emit(source, alt)}
+              />
+            );
+          })}
         </div>
 
         <div className="flex flex-col gap-2 pt-1">
@@ -178,10 +182,12 @@ function QuestionCard({
 function RecommendedCard({
   text,
   disabled,
+  selected,
   onPick,
 }: {
   text: string;
   disabled?: boolean;
+  selected?: boolean;
   onPick: () => void;
 }) {
   return (
@@ -190,7 +196,10 @@ function RecommendedCard({
       onClick={onPick}
       disabled={disabled}
       className={cn(
-        "group text-left rounded-[var(--radius-button)] border p-4 transition-all bg-[var(--color-accent-bg)] border-[var(--color-accent)]/30 hover:border-[var(--color-accent)]",
+        "group text-left rounded-[var(--radius-button)] border p-4 transition-all",
+        selected
+          ? "bg-[var(--color-accent-bg)] border-[var(--color-accent)] ring-2 ring-[var(--color-accent)]/30 scale-[0.98]"
+          : "bg-[var(--color-accent-bg)] border-[var(--color-accent)]/30 hover:border-[var(--color-accent)]",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-accent)]/40",
         "disabled:opacity-50 disabled:cursor-not-allowed",
       )}
@@ -214,11 +223,13 @@ function AlternativeCard({
   index,
   text,
   disabled,
+  selected,
   onPick,
 }: {
   index: number;
   text: string;
   disabled?: boolean;
+  selected?: boolean;
   onPick: () => void;
 }) {
   return (
@@ -227,7 +238,10 @@ function AlternativeCard({
       onClick={onPick}
       disabled={disabled}
       className={cn(
-        "group text-left rounded-[var(--radius-button)] border p-4 transition-all border-[var(--color-border-warm)] bg-white/40 hover:bg-white/70",
+        "group text-left rounded-[var(--radius-button)] border p-4 transition-all",
+        selected
+          ? "border-[var(--color-accent)] ring-2 ring-[var(--color-accent)]/30 bg-white/70 scale-[0.98]"
+          : "border-[var(--color-border-warm)] bg-white/40 hover:bg-white/70",
         "focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-[var(--color-fg-muted)]/40",
         "disabled:opacity-50 disabled:cursor-not-allowed",
       )}

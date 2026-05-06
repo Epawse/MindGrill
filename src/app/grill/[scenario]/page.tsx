@@ -21,6 +21,7 @@ import { QuestionRenderer } from "@/components/question-renderer";
 import { ProgressIndicator } from "@/components/progress-indicator";
 import { StreakLoader } from "@/components/streak-loader";
 import { RevisionSummary } from "@/components/revision-summary";
+import { ConversationHistory } from "@/components/conversation-history";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
 import { useGrillStore } from "@/stores/grill-store";
@@ -208,7 +209,8 @@ export default function GrillPage({
 
         {phase === "GRILLING" && store.lastQuestion && (
           <div className="flex flex-col gap-4">
-            <ProgressIndicator visited={Math.max(visited, resolved)} />
+            <ProgressIndicator visited={Math.max(visited, resolved)} session={store.session ?? undefined} />
+            {store.session && <ConversationHistory session={store.session} />}
             <QuestionRenderer
               question={store.lastQuestion}
               onSubmit={onAnswer}
@@ -219,7 +221,8 @@ export default function GrillPage({
 
         {phase === "THINKING" && (
           <div className="flex flex-col gap-4">
-            <ProgressIndicator visited={Math.max(visited, resolved)} />
+            <ProgressIndicator visited={Math.max(visited, resolved)} session={store.session ?? undefined} />
+            {store.session && <ConversationHistory session={store.session} />}
             <div className="glass-card p-8">
               <StreakLoader label="AI 正在拷问你的下一轮…" />
             </div>

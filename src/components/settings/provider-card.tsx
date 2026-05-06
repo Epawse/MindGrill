@@ -127,9 +127,6 @@ export function ProviderCard({
             <span className="font-sans font-semibold text-[var(--color-fg)] text-sm truncate">
               {meta.displayName}
             </span>
-            <span className="font-sans text-xs text-[var(--color-fg-muted)] truncate">
-              {meta.blurb}
-            </span>
           </div>
         </div>
         <div className="flex items-center gap-2 shrink-0">
