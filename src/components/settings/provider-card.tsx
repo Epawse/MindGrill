@@ -60,7 +60,9 @@ export function ProviderCard({
   const [saveStatus, setSaveStatus] = useState<"idle" | "saving" | "done">("idle");
 
   const hasUserKeys = storedKeys.length > 0;
-  const isConfigured = hasUserKeys || envConfigured;
+  // Only show as "configured" if the user has their own keys.
+  // Env keys are a backend detail, not a user-facing status.
+  const isConfigured = hasUserKeys;
 
   const handleTest = async () => {
     if (!apiKey.trim()) return;
@@ -100,7 +102,7 @@ export function ProviderCard({
       className="gap-1 border-emerald-500/40 text-emerald-700 bg-emerald-500/10 font-sans text-xs"
     >
       <CheckCircle2 className="size-3" />
-      {hasUserKeys ? `${storedKeys.length} key(s)` : `env (${envKeyCount})`}
+      自带 Key
     </Badge>
   ) : (
     <Badge
@@ -305,8 +307,7 @@ export function ProviderCard({
               {/* Env key info */}
               {envConfigured && (
                 <p className="font-sans text-xs text-[var(--color-fg-muted)]">
-                  服务器已配置 {envKeyCount} 个环境变量 Key
-                  {hasUserKeys ? "（优先使用你的自定义 Key）" : ""}
+                  平台已提供此供应商的 Key{hasUserKeys ? "，但你自定义的 Key 优先使用" : "，使用平台 Key 会消耗你的额度"}
                 </p>
               )}
 
