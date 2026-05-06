@@ -85,7 +85,7 @@ export const PROVIDERS: ProviderMeta[] = [
     displayName: "DeepSeek",
     requiresBaseUrl: true,
     defaultBaseUrl: "https://api.deepseek.com",
-    recommendedModels: ["deepseek-chat", "deepseek-reasoner"],
+    recommendedModels: ["deepseek-v4-flash", "deepseek-chat", "deepseek-reasoner"],
     supportsVision: false,
     supportsJsonSchema: true,
     envKey: "DEEPSEEK_API_KEY",

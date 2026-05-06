@@ -10,10 +10,10 @@ import { getConfiguredProviders } from "./health-check";
 import { isProviderId, type ProviderId } from "./provider-registry";
 
 const PREFERENCE_ORDER: ProviderId[] = [
+  "deepseek",
   "google",
   "openai",
   "anthropic",
-  "deepseek",
   "qwen",
   "glm",
   "hunyuan",
