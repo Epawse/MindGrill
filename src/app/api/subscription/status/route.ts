@@ -27,7 +27,8 @@ export async function GET() {
     }
 
     // Calculate total remaining credits
-    const isUnlimited = subscription.plan.monthly_credits === 0;
+    // monthly_credits: -1 = unlimited (PRO), 0 = no credits (Free during contest)
+    const isUnlimited = subscription.plan.monthly_credits === -1;
     const monthlyRemaining = isUnlimited
       ? -1
       : subscription.credits_remaining;

@@ -22,6 +22,18 @@ function CreditBar({
   total: number;
   isUnlimited: boolean;
 }) {
+  // No credits available (Free plan with 0 credits during contest)
+  if (!isUnlimited && total === 0) {
+    return (
+      <div className="flex items-center gap-2">
+        <div className="h-2 flex-1 rounded-full bg-gray-200" />
+        <span className="font-sans text-sm text-[var(--color-fg-muted)] whitespace-nowrap">
+          暂无额度
+        </span>
+      </div>
+    );
+  }
+
   if (isUnlimited) {
     return (
       <div className="flex items-center gap-2">

@@ -14,7 +14,8 @@ function formatPrice(cents: number): string {
 }
 
 function formatCredits(credits: number): string {
-  if (credits === 0) return "不限量";
+  if (credits === -1) return "不限量";
+  if (credits === 0) return "暂无额度";
   return `${credits} 次`;
 }
 
