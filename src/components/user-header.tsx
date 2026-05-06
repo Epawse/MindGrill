@@ -105,7 +105,7 @@ export function UserHeader() {
             <CreditCard className="size-3 mr-1" />
             {subscription.is_unlimited
               ? "不限量"
-              : `${subscription.credits_remaining}次`}
+              : `${subscription.credits_remaining + subscription.bonus_credits_remaining}次`}
           </Link>
         </Badge>
       )}

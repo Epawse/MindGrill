@@ -174,7 +174,9 @@ export default function SettingsPage() {
                   <p className="font-sans text-sm text-[var(--color-fg-muted)]">
                     {subscription.is_unlimited
                       ? "不限量对练"
-                      : `每月 ${subscription.monthly_credits} 次对练`}
+                      : subscription.monthly_credits === 0
+                        ? "暂无月额度（可使用兑换码或升级）"
+                        : `每月 ${subscription.monthly_credits} 次对练`}
                   </p>
                 </div>
                 <Link href="/pricing">
@@ -184,26 +186,26 @@ export default function SettingsPage() {
                 </Link>
               </div>
 
-              {/* Monthly credits */}
+              {/* Available credits */}
               {!subscription.is_unlimited && (
                 <div>
                   <div className="flex items-center justify-between mb-1">
                     <span className="font-sans text-sm text-[var(--color-fg-muted)]">
-                      本月额度
+                      可用额度
                     </span>
                     <span className="font-sans text-sm font-medium text-[var(--color-fg)]">
-                      {subscription.credits_remaining} 次
+                      {subscription.credits_remaining + subscription.bonus_credits_remaining} 次
                     </span>
                   </div>
                   <CreditBar
-                    remaining={subscription.credits_remaining}
-                    total={subscription.monthly_credits}
+                    remaining={subscription.credits_remaining + subscription.bonus_credits_remaining}
+                    total={Math.max(subscription.monthly_credits, 1)}
                     isUnlimited={false}
                   />
                 </div>
               )}
 
-              {/* Bonus credits */}
+              {/* Bonus credits detail */}
               {subscription.bonus_credits_remaining > 0 && (
                 <div className="flex items-center gap-2 rounded-lg bg-amber-50 border border-amber-200 p-3">
                   <Gift className="size-4 text-amber-600 shrink-0" />
