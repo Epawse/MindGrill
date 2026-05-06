@@ -2,6 +2,17 @@
 
 import { useState, useEffect, useCallback } from "react";
 
+// Global event for cross-component subscription state sync.
+// When any component changes subscription state (e.g. redeem code),
+// it dispatches this event so all useSubscription instances refetch.
+const SUBSCRIPTION_CHANGED_EVENT = "mindgrill:subscription-changed";
+
+export function notifySubscriptionChanged() {
+  if (typeof window !== "undefined") {
+    window.dispatchEvent(new CustomEvent(SUBSCRIPTION_CHANGED_EVENT));
+  }
+}
+
 export interface PlanInfo {
   id: string;
   name: string;
@@ -65,7 +76,6 @@ export function useSubscription(): UseSubscriptionReturn {
           const subData = await subRes.json();
           setSubscription(subData.subscription ?? null);
         } else {
-          // Not logged in or no subscription yet
           setSubscription(null);
         }
       } catch (err) {
@@ -82,6 +92,17 @@ export function useSubscription(): UseSubscriptionReturn {
       cancelled = true;
     };
   }, [fetchCounter]);
+
+  // Listen for global subscription change events from other components
+  useEffect(() => {
+    function handleSubscriptionChanged() {
+      setFetchCounter((c) => c + 1);
+    }
+    window.addEventListener(SUBSCRIPTION_CHANGED_EVENT, handleSubscriptionChanged);
+    return () => {
+      window.removeEventListener(SUBSCRIPTION_CHANGED_EVENT, handleSubscriptionChanged);
+    };
+  }, []);
 
   const refetch = useCallback(() => {
     setFetchCounter((c) => c + 1);
@@ -118,6 +139,8 @@ export function useRedeemCode() {
       }
 
       setResult(data);
+      // Notify all useSubscription instances to refetch
+      notifySubscriptionChanged();
       return data;
     } catch (err) {
       setError(err instanceof Error ? err.message : "兑换失败");
