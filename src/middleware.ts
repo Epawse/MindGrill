@@ -23,8 +23,8 @@ const CODE_GATE_BYPASS_PREFIXES = [
   "/api/health/",
 ];
 
-/** Paths that never require access code (static assets, verify page itself). */
-const NO_CODE_CHECK_PREFIXES = ["/verify", "/_next", "/favicon.ico"];
+/** Paths that never require access code (static assets, verify page, auth pages). */
+const NO_CODE_CHECK_PREFIXES = ["/verify", "/auth/", "/_next", "/favicon.ico"];
 
 function shouldBypassCodeGate(pathname: string): boolean {
   return CODE_GATE_BYPASS_PREFIXES.some((p) => pathname.startsWith(p));
