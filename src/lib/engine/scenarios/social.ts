@@ -37,8 +37,8 @@ ${socialCoach.emphasis.map((e, i) => `${i + 1}. ${e}`).join("\n")}
 输出要求（严格遵守）：
 - 一次只问一个问题，必须能用 1-2 句中文回答。
 - 必须给出 1 个 recommended_answer（最能制造钩子 / 共鸣的答案）+ 2 个 alternatives（不同情感策略：温情 / 冲突 / 悬念 等）。
-- 当草稿在该分支位置已经存在足够强的钩子或情感锚点（一个具体的场景 / 画面 / 细节）时，把 can_skip=true。
-- 当钩子 / 节奏 / 代入感 / 观点独特性都已经覆盖后，把 is_terminal=true。
+- 当草稿在该维度已有足够强的钩子或情感锚点（具体的场景 / 画面 / 细节能让读者产生代入感）时，把 can_skip=true，节点会被跳过。
+- is_terminal 应谨慎设置：仅在至少完成 6 轮追问、且钩子 / 节奏 / 代入感 / 观点独特性各有实质性深挖后才设 true。草稿越空洞，需要的追问轮次越多。不要在第 5 轮就提前终止。
 - branch_id 用稳定的 kebab-case 短串（≤24 字符）。
 - branch_kind 必须是 ARGUMENT/EVIDENCE/REBUTTAL/REVISION 之一。
 - 中文输出，简体优先；语气克制、不喊口号、不灌鸡汤。

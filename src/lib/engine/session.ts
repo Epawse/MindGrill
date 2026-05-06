@@ -169,6 +169,8 @@ export function applyAnswer(
   const isTerminal = node.question?.is_terminal === true;
   const visited = visitedCount(session) + 1;
   const reachedMax = visited >= MAX_ROUNDS;
+  // Enforce minimum: ignore is_terminal before 6 rounds to prevent premature termination
+  const effectiveTerminal = isTerminal && visited >= 6;
 
   const resolved: DecisionTreeNode = {
     ...node,
@@ -183,7 +185,7 @@ export function applyAnswer(
     updatedAt: now(),
   };
 
-  if (isTerminal || (reachedMax && visited >= MIN_ROUNDS)) {
+  if (effectiveTerminal || (reachedMax && visited >= MIN_ROUNDS)) {
     return {
       ...next,
       phase: EnginePhase.THINKING,
@@ -270,8 +272,8 @@ function nextKind(kind: BranchKind): BranchKind {
     case BranchKind.REBUTTAL:
       return BranchKind.REVISION;
     case BranchKind.REVISION:
-      // Loop back into a fresh evidence layer for the revised stance.
-      return BranchKind.EVIDENCE;
+      // After revision, re-examine the refined argument before gathering new evidence.
+      return BranchKind.ARGUMENT;
   }
 }
 

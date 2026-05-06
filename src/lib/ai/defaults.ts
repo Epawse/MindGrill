@@ -10,10 +10,10 @@ import { getConfiguredProviders } from "./health-check";
 import { isProviderId, type ProviderId } from "./provider-registry";
 
 const PREFERENCE_ORDER: ProviderId[] = [
-  "ollama-cloud",
   "google",
   "openai",
   "anthropic",
+  "ollama-cloud",
   "deepseek",
   "qwen",
   "glm",

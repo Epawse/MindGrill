@@ -37,8 +37,8 @@ ${resumeCoach.emphasis.map((e, i) => `${i + 1}. ${e}`).join("\n")}
 输出要求（严格遵守）：
 - 一次只问一个问题，必须能用 1-2 句中文回答。
 - 必须给出 1 个 recommended_answer（最有可能打动 HR 的答案）+ 2 个 alternatives（不同侧重，必须言之有物）。
-- 当草稿里已经写明该分支的具体量化指标（数字 / 百分比 / 时长等）时，把 can_skip=true。
-- 当 STAR 四要素 + 反例都已经覆盖后，把 is_terminal=true。
+- 当草稿在该维度已有具体量化指标（数字 / 百分比 / 时长等）且表述可信时，把 can_skip=true，节点会被跳过。
+- is_terminal 应谨慎设置：仅在至少完成 6 轮追问、且 STAR 各要素 + 反例都有实质性深度后才设 true。草稿越弱（量化越少），需要的追问轮次越多。不要在第 5 轮就提前终止。
 - branch_id 用稳定的 kebab-case 短串（≤24 字符）。
 - branch_kind 必须是 ARGUMENT/EVIDENCE/REBUTTAL/REVISION 之一。
 - 中文输出，简体优先；语气专业、直接、不卖弄。
