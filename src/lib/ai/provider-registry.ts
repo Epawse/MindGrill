@@ -17,7 +17,6 @@ export const PROVIDER_IDS = [
   "glm",
   "hunyuan",
   "doubao",
-  "ollama-cloud",
   "openai-compatible",
 ] as const;
 
@@ -138,23 +137,6 @@ export const PROVIDERS: ProviderMeta[] = [
     supportsVision: true,
     supportsJsonSchema: false,
     envKey: "DOUBAO_API_KEY",
-    blurb: "",
-  },
-  {
-    id: "ollama-cloud",
-    displayName: "Ollama Cloud Pro",
-    requiresBaseUrl: true,
-    defaultBaseUrl: "https://ollama.com/v1",
-    baseUrlEnvKey: "OLLAMA_BASE_URL",
-    recommendedModels: [
-      "qwen3:235b",
-      "gpt-oss:120b",
-      "deepseek-v3.1:671b",
-      "gemma3:27b",
-    ],
-    supportsVision: false,
-    supportsJsonSchema: true,
-    envKey: "OLLAMA_API_KEY",
     blurb: "",
   },
   {

@@ -13,7 +13,6 @@ describe("getModelWithUserKey", () => {
     "glm",
     "hunyuan",
     "doubao",
-    "ollama-cloud",
   ];
 
   beforeEach(() => {

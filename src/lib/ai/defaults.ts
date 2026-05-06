@@ -13,7 +13,6 @@ const PREFERENCE_ORDER: ProviderId[] = [
   "google",
   "openai",
   "anthropic",
-  "ollama-cloud",
   "deepseek",
   "qwen",
   "glm",

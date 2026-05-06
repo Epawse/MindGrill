@@ -71,7 +71,7 @@ function createSdkProvider(id: ProviderId): SdkProvider | null {
     case "google":
       return createGoogleGenerativeAI({ apiKey: selectedKey });
     default: {
-      // OpenAI-compatible: deepseek, qwen, glm, hunyuan, doubao, ollama-cloud, openai-compatible
+      // OpenAI-compatible: deepseek, qwen, glm, hunyuan, doubao, openai-compatible
       const baseURL = resolveBaseUrl(meta);
       if (!baseURL && meta.requiresBaseUrl) return null;
       return createOpenAI({ apiKey: selectedKey, baseURL });
@@ -106,7 +106,7 @@ function buildRegistry() {
 /**
  * The AI SDK 5 provider registry.
  * Built lazily on first access and then cached.
- * Use: `getRegistry().languageModel('ollama-cloud:qwen3:235b')`
+ * Use: `getRegistry().languageModel('google:gemini-3-flash-preview')`
  *
  * Call `resetRegistry()` to force a rebuild (useful in tests after changing env).
  */

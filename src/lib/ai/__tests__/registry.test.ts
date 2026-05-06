@@ -51,7 +51,6 @@ describe("getModel with registry-based resolution", () => {
     "glm",
     "hunyuan",
     "doubao",
-    "ollama-cloud",
   ];
 
   for (const id of NATIVE_PROVIDERS) {

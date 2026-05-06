@@ -63,7 +63,6 @@ describe("getModel factory — happy path with stubbed env", () => {
     "glm",
     "hunyuan",
     "doubao",
-    "ollama-cloud",
   ];
 
   for (const id of NATIVE_PROVIDERS) {
