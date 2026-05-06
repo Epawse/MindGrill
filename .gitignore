@@ -27,6 +27,9 @@ skills/
 # TypeScript incremental build cache
 tsconfig.tsbuildinfo
 
+# Seed data with credentials — manage via Supabase Dashboard, not git
+supabase/migrations/0008_seed_judge_account.sql
+
 # Pre-existing project docs / artifacts (managed outside this repo)
 _local/
 AGENTS.md
