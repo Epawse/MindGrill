@@ -23,6 +23,7 @@ import {
   resolveProvider,
   withFallback,
 } from "@/lib/ai";
+import { providerOptionsFor } from "@/lib/ai/provider-registry";
 import { getModelWithUserKey, getUserProviderKey } from "@/lib/ai/user-key";
 import { getServerUser } from "@/lib/auth/get-user";
 import { errorResponse, ValidationError, ProviderUnavailableError, UnauthorizedError } from "@/lib/errors";
@@ -111,6 +112,7 @@ export async function POST(req: NextRequest) {
       system: prompt.systemPrompt,
       prompt: prompt.userPrompt,
       temperature: 0.4,
+      providerOptions: providerOptionsFor(providerId),
     });
 
     session = attachQuestion(session, result.object);

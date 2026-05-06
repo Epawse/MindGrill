@@ -29,6 +29,7 @@ import {
   resolveProvider,
   withFallback,
 } from "@/lib/ai";
+import { providerOptionsFor, type ProviderId } from "@/lib/ai/provider-registry";
 import { getModelWithUserKey, getUserProviderKey } from "@/lib/ai/user-key";
 import { getServerUser } from "@/lib/auth/get-user";
 import {
@@ -110,7 +111,7 @@ export async function POST(req: NextRequest) {
     // If the engine reached THINKING after applying the answer, generate
     // the final revision and complete the session.
     if (session.phase === EnginePhase.THINKING) {
-      return await finalizeSession(session, model, startedAt);
+      return await finalizeSession(session, model, providerId, startedAt);
     }
 
     // Otherwise: still grilling — generate the next question.
@@ -121,6 +122,7 @@ export async function POST(req: NextRequest) {
       system: prompt.systemPrompt,
       prompt: prompt.userPrompt,
       temperature: 0.4,
+      providerOptions: providerOptionsFor(providerId),
     });
     session = attachQuestion(session, result.object);
 
@@ -139,6 +141,7 @@ export async function POST(req: NextRequest) {
         system: p.systemPrompt,
         prompt: p.userPrompt,
         temperature: 0.4,
+        providerOptions: providerOptionsFor(providerId),
       });
       session = attachQuestion(session, r.object);
       safety += 1;
@@ -146,7 +149,7 @@ export async function POST(req: NextRequest) {
 
     // Auto-skipped nodes may have pushed us into THINKING.
     if (session.phase === EnginePhase.THINKING) {
-      return await finalizeSession(session, model, startedAt);
+      return await finalizeSession(session, model, providerId, startedAt);
     }
 
     logger.info("grill.answer.next", {
@@ -173,6 +176,7 @@ export async function POST(req: NextRequest) {
 async function finalizeSession(
   session: GrillSessionFromEngine,
   model: LanguageModel,
+  providerId: ProviderId,
   startedAt: number,
 ): Promise<Response> {
   const prompt = buildRevisionPrompt({ session });
@@ -182,6 +186,7 @@ async function finalizeSession(
     system: prompt.systemPrompt,
     prompt: prompt.userPrompt,
     temperature: 0.5,
+    providerOptions: providerOptionsFor(providerId),
   });
   session = completeSession(session, result.object);
   logger.info("grill.answer.complete", {

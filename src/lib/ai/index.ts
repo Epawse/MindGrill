@@ -9,6 +9,7 @@ export {
   defaultModelFor,
   getProviderMeta,
   isProviderId,
+  providerOptionsFor,
 } from "./provider-registry";
 export type { ProviderId, ProviderMeta } from "./provider-registry";
 export { ProviderConfigError, AllProvidersFailedError } from "./errors";

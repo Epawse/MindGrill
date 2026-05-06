@@ -87,7 +87,7 @@ export const PROVIDERS: ProviderMeta[] = [
     defaultBaseUrl: "https://api.deepseek.com",
     recommendedModels: ["deepseek-v4-flash", "deepseek-chat", "deepseek-reasoner"],
     supportsVision: false,
-    supportsJsonSchema: true,
+    supportsJsonSchema: false,
     envKey: "DEEPSEEK_API_KEY",
     blurb: "",
   },
@@ -170,4 +170,17 @@ export function isProviderId(id: string): id is ProviderId {
 export function defaultModelFor(id: ProviderId): string {
   const meta = getProviderMeta(id);
   return meta.recommendedModels[0]!;
+}
+
+/**
+ * Return provider-specific options for generateObject calls.
+ * Providers that don't support json_schema structured outputs need
+ * `structuredOutputs: false` to fall back to json_object mode.
+ */
+export function providerOptionsFor(id: ProviderId) {
+  const meta = getProviderMeta(id);
+  if (!meta.supportsJsonSchema) {
+    return { openai: { structuredOutputs: false } } as const;
+  }
+  return undefined;
 }
