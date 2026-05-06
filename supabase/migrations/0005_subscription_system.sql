@@ -4,13 +4,13 @@
 
 -- ===== plans =================================================================
 -- Defines subscription tiers. Seeded with Free/Plus/PRO.
--- monthly_credits = 0 means unlimited (PRO plan).
--- monthly_credits can be set to 0 for Free during contest phase.
+-- monthly_credits = -1 means unlimited (PRO plan).
+-- monthly_credits can be set to 0 for Free (no credits during contest phase).
 
 create table if not exists public.plans (
   id text primary key,  -- 'free', 'plus', 'pro'
   name text not null,  -- display name: 'Free', 'Plus', 'PRO'
-  monthly_credits int not null,  -- 0 = unlimited for pro, else credits/month
+  monthly_credits int not null,  -- -1 = unlimited for pro, else credits/month
   max_rounds int not null,  -- max grill rounds per session, 0 = unlimited
   model_access text not null default 'basic',  -- 'basic', 'advanced', 'all'
   price_monthly int not null default 0,  -- in CNY cents (0 = free)
@@ -20,10 +20,11 @@ create table if not exists public.plans (
 );
 
 -- Seed plans
+-- monthly_credits: -1 = unlimited (PRO), 0 = no credits (Free during contest)
 insert into public.plans (id, name, monthly_credits, max_rounds, model_access, price_monthly, price_yearly, sort_order) values
   ('free', 'Free', 0, 8, 'basic', 0, 0, 0),
   ('plus', 'Plus', 200, 15, 'advanced', 2000, 20000, 1),
-  ('pro', 'PRO', 0, 0, 'all', 10000, 100000, 2)
+  ('pro', 'PRO', -1, 0, 'all', 10000, 100000, 2)
 on conflict (id) do nothing;
 
 -- ===== subscriptions =========================================================
@@ -226,7 +227,7 @@ $$;
 -- Deduct one credit from a user's subscription.
 -- Uses monthly credits first, then bonus credits.
 -- Returns jsonb: { allowed, reason?, remaining? }
--- For PRO plan (monthly_credits = 0): always allowed, no deduction.
+-- For PRO plan (monthly_credits = -1): always allowed, no deduction.
 create or replace function public.deduct_subscription_credit(
   p_user_id uuid
 )
@@ -255,7 +256,7 @@ begin
   end if;
 
   -- PRO plan: unlimited credits, no deduction needed
-  if v_plan.monthly_credits = 0 then
+  if v_plan.monthly_credits = -1 then
     return jsonb_build_object('allowed', true, 'remaining', -1);
   end if;
 

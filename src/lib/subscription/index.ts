@@ -24,7 +24,7 @@ export type PlanId = (typeof PlanId)[keyof typeof PlanId];
 export interface Plan {
   id: PlanId;
   name: string;
-  monthly_credits: number; // 0 = unlimited
+  monthly_credits: number; // -1 = unlimited
   max_rounds: number; // 0 = unlimited
   model_access: "basic" | "advanced" | "all";
   price_monthly: number; // in CNY cents
@@ -145,7 +145,7 @@ export async function getUserSubscription(
  *
  * Uses the `deduct_subscription_credit` SECURITY DEFINER function for
  * atomic deduction. Monthly credits are consumed first, then bonus credits.
- * PRO plan (monthly_credits = 0) is always allowed with no deduction.
+ * PRO plan (monthly_credits = -1) is always allowed with no deduction.
  *
  * Returns { allowed: true } on success, or { allowed: false, reason } on failure.
  */
