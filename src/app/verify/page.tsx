@@ -122,7 +122,7 @@ function VerifyForm() {
           href="/auth/sign-in"
           className="hover:text-[var(--color-fg)] transition-colors underline-offset-4 hover:underline"
         >
-          已有账号？登录后无需访问码
+          已有账号？邮箱验证码登录
         </Link>
       </div>
 
