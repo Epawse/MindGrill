@@ -8,7 +8,7 @@
  * Multi-key rotation is handled by `key-rotation.ts`: when a provider has
  * comma-separated keys, we pick a non-blacklisted one at random.
  */
-import { createProviderRegistry } from "ai";
+import { createProviderRegistry, type LanguageModel } from "ai";
 import { createOpenAI, type OpenAIProvider } from "@ai-sdk/openai";
 import { createAnthropic, type AnthropicProvider } from "@ai-sdk/anthropic";
 import { createGoogleGenerativeAI, type GoogleGenerativeAIProvider } from "@ai-sdk/google";
@@ -17,9 +17,11 @@ import {
   PROVIDERS,
   getProviderMeta,
   defaultModelFor,
+  CHAT_ONLY_PROVIDERS,
   type ProviderId,
 } from "./provider-registry";
 import { parseApiKeys, selectKey } from "./key-rotation";
+import { ProviderConfigError } from "./errors";
 import { logger } from "@/lib/logger";
 
 // ---------------------------------------------------------------------------
@@ -129,16 +131,31 @@ export function resetRegistry(): void {
  * Convenience wrapper: get a LanguageModel from the registry by provider ID
  * and optional model ID.
  *
- * Uses `registry.languageModel('providerId:modelId')` under the hood.
- * If modelId is omitted, uses the provider's default recommended model.
+ * For providers that don't support the OpenAI Responses API (deepseek, qwen,
+ * etc.), we bypass the registry and call provider.chat(model) directly to
+ * force the Chat Completions endpoint (/chat/completions).
+ *
+ * For native providers (openai, anthropic, google), uses the registry's
+ * languageModel() which may use the Responses API.
  *
  * Throws if the provider is not registered (no API key configured).
  */
 export function getRegistryModel(
   providerId: ProviderId,
   modelId?: string,
-) {
+): LanguageModel {
   const model = modelId ?? defaultModelFor(providerId);
+
+  if (CHAT_ONLY_PROVIDERS.has(providerId)) {
+    // OpenAI-compatible providers that don't support /responses — use .chat()
+    // to force the Chat Completions endpoint.
+    const provider = createSdkProvider(providerId) as OpenAIProvider;
+    if (!provider) {
+      throw new ProviderConfigError(providerId, [getProviderMeta(providerId).envKey]);
+    }
+    return provider.chat(model) as unknown as LanguageModel;
+  }
+
   const registryId = `${providerId}:${model}` as `${string}:${string}`;
   return getRegistry().languageModel(registryId);
 }

@@ -20,6 +20,16 @@ export const PROVIDER_IDS = [
   "openai-compatible",
 ] as const;
 
+/** Providers that use OpenAI-compatible API but need the chat completions endpoint. */
+export const CHAT_ONLY_PROVIDERS: ReadonlySet<ProviderId> = new Set([
+  "deepseek",
+  "qwen",
+  "glm",
+  "hunyuan",
+  "doubao",
+  "openai-compatible",
+]);
+
 export type ProviderId = (typeof PROVIDER_IDS)[number];
 
 export interface ProviderMeta {
